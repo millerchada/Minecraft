@@ -33,7 +33,7 @@ services:
     restart: "unless-stopped"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./config.yml:/config.yml    
+      - webhook:/webhook/config.yml
 
   minecraft-survival:
     image: itzg/minecraft-bedrock-server
@@ -100,5 +100,6 @@ volumes:
   minecraft-creative:
   minecraft-nicks:
   backupsystem:
+  webhook:
 
   
