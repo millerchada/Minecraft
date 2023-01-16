@@ -63,7 +63,7 @@ services:
     depends_on:
       - messages
     volumes:
-      - backups:/backups
+      - backupsystem:/backups
       - /tmp:/data
       - web:/web
     environment:
