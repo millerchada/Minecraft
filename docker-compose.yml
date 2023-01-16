@@ -36,7 +36,7 @@ services:
     container_name: webhook
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - webhook/config.yml:/config.yml
+      - /var/lib/docker/volumes/minecraft_webhook/_data/config.yml:/config.yml
         
   messages:
     image: eclipse-mosquitto:2
