@@ -10,14 +10,16 @@ services:
       - "minecraft-nicks"
     environment:
       TZ: "America/Detroit"
+    stdin_open: true
     tty: true
-
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - backupsystem:/backups
       - minecraft-survival:/minecraft-survival
       - minecraft-creative:/minecraft-creative
       - minecraft-nicks:/minecraft-nicks
+    labels:
+      - backupsystem=true
 
   manymine:
     image: illiteratealliterator/manymine
@@ -54,6 +56,7 @@ services:
       - '60601:19132/udp'
     labels:
       - manymine.enable=true
+      - minecraft-survival=true
 
   minecraft-creative:
     image: itzg/minecraft-bedrock-server
@@ -74,6 +77,7 @@ services:
       - '60602:19132/udp'
     labels:
       - manymine.enable=true
+      - minecraft-creative=true
       
   minecraft-nicks:
     image: itzg/minecraft-bedrock-server
@@ -94,6 +98,7 @@ services:
       - '60603:19132/udp'
     labels:
       - manymine.enable=true
+      - minecraft-nicks=true
       
 volumes:
   minecraft-survival:
