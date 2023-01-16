@@ -47,6 +47,15 @@ services:
       - mosquitto-data:/mosquitto/data
       - mosquitto-logs:/mosquitto/log
 
+  map_server:
+    image: halverneus/static-file-server:v1.8.5
+    restart: "unless-stopped"
+    container_name: mapserver
+    volumes:
+      - web:/web
+    ports:
+      - "8080:8080"
+      
 map_builder:
     image: ghcr.io/edward3h/bedrock-viz-from-backups:v0.2
     restart: "unless-stopped"
@@ -62,15 +71,6 @@ map_builder:
       - MQTT_SUBSCRIBE_TOPIC=mc-webhook
       - MQTT_PUBLISH_TOPIC=mc-maps
       - WEB_HOST_TARGET=/web
-
-  map_server:
-    image: halverneus/static-file-server:v1.8.5
-    restart: "unless-stopped"
-    container_name: mapserver
-    volumes:
-      - web:/web
-    ports:
-      - "8080:8080"
     
   minecraft-survival:
     image: itzg/minecraft-bedrock-server
