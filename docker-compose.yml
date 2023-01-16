@@ -89,9 +89,9 @@ services:
       - manymine.enable=true
       
 volumes:
-  minecraft-crashcentral:
+  minecraft-survival:
   minecraft-creative:
-  minecraft-nicksnotoriousnovelties:
+  minecraft-nicks:
   backupsystem:
 
   
