@@ -24,7 +24,7 @@ services:
     restart: unless-stopped
     container_name: manymine
     ports:
-      - '19132:19132/udp'
+      - '19132:60600/udp'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
