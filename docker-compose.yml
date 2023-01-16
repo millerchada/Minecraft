@@ -36,7 +36,15 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - webhook:/webhook/config.yml
-
+        
+  messages:
+    image: eclipse-mosquitto:2
+    restart: "unless-stopped"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mosquitto-data:/mosquitto/data
+      - mosquitto-logs:/mosquitto/log
+    
   minecraft-survival:
     image: itzg/minecraft-bedrock-server
     restart: unless-stopped
@@ -106,5 +114,7 @@ volumes:
   minecraft-nicks:
   backupsystem:
   webhook:
+  mosquitto-data:
+  mosquitto-logs:  
 
   
