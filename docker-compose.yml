@@ -1,0 +1,97 @@
+version: "3.7"
+services:
+  backupsystem:
+    image: kaiede/minecraft-bedrock-backup
+    restart: unless-stopped
+    container_name: backupsystem
+    depends_on:
+      - "minecraft-survival"
+      - "minecraft-creative"
+      - "minecraft-nicks"
+    environment:
+      TZ: "America/Detroit"
+    tty: true
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - backupsystem:/backups
+      - minecraft-survival:/minecraft-survival
+      - minecraft-creative:/minecraft-creative
+      - minecraft-nicks:/minecraft-nicks
+
+  manymine:
+    image: illiteratealliterator/manymine
+    restart: unless-stopped
+    container_name: manymine
+    ports:
+      - '19132:19132/udp'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  minecraft-survival:
+    image: itzg/minecraft-bedrock-server
+    restart: unless-stopped
+    container_name: minecraft-survival
+    environment:
+      EULA: "TRUE"
+      SERVER_NAME: "minecraft-survival"
+      GAMEMODE: "survival"
+      DIFFICULTY: "normal"
+      LEVEL_NAME: "minecraft-survival"
+      MAX_PLAYERS: 10
+    volumes:
+      - minecraft-survival:/data
+    stdin_open: true
+    tty: true
+    ports:
+      - '60601:19132/udp'
+    labels:
+      - manymine.enable=true
+
+  minecraft-creative:
+    image: itzg/minecraft-bedrock-server
+    restart: unless-stopped
+    container_name: minecraft-creative
+    environment:
+      EULA: "TRUE"
+      SERVER_NAME: "minecraft-creative"
+      GAMEMODE: "creative"
+      DIFFICULTY: "normal"
+      LEVEL_NAME: "minecraft-creative"
+      MAX_PLAYERS: 10
+    volumes:
+      - minecraft-creative:/data
+    stdin_open: true
+    tty: true
+    ports:
+      - '60602:19132/udp'
+    labels:
+      - manymine.enable=true
+      
+  minecraft-nicks:
+    image: itzg/minecraft-bedrock-server
+    restart: unless-stopped
+    container_name: minecraft-nicks
+    environment:
+      EULA: "TRUE"
+      SERVER_NAME: "minecraft-nicks"
+      GAMEMODE: "survival"
+      DIFFICULTY: "normal"
+      LEVEL_NAME: "minecraft-nicks"
+      MAX_PLAYERS: 10
+    volumes:
+      - minecraft-nicks:/data
+    stdin_open: true
+    tty: true
+    ports:
+      - '60603:19132/udp'
+    labels:
+      - manymine.enable=true
+      
+volumes:
+  minecraft-crashcentral:
+  minecraft-creative:
+  minecraft-nicksnotoriousnovelties:
+  backupsystem:
+
+  
