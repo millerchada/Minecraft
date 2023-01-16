@@ -33,6 +33,7 @@ services:
   webhook:
     image: ghcr.io/edward3h/mc-webhook:0.4
     restart: "unless-stopped"
+    container_name: webhook
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - webhook:/webhook/config.yml
@@ -40,10 +41,36 @@ services:
   messages:
     image: eclipse-mosquitto:2
     restart: "unless-stopped"
+    container_name: messages
     volumes:
       - mosquitto-config:/mosquitto
       - mosquitto-data:/mosquitto/data
       - mosquitto-logs:/mosquitto/log
+
+map_builder:
+    image: ghcr.io/edward3h/bedrock-viz-from-backups:v0.2
+    restart: "unless-stopped"
+    container_name: mapbuilder
+    depends_on:
+      - messages
+    volumes:
+      - backups:/backups
+      - /tmp:/data
+      - web:/web
+    environment:
+      - MQTT_SERVER_HOST=messages
+      - MQTT_SUBSCRIBE_TOPIC=mc-webhook
+      - MQTT_PUBLISH_TOPIC=mc-maps
+      - WEB_HOST_TARGET=/web
+
+  map_server:
+    image: halverneus/static-file-server:v1.8.5
+    restart: "unless-stopped"
+    container_name: mapserver
+    volumes:
+      - web:/web
+    ports:
+      - "8080:8080"
     
   minecraft-survival:
     image: itzg/minecraft-bedrock-server
@@ -117,5 +144,5 @@ volumes:
   mosquitto-data:
   mosquitto-logs:  
   mosquitto-config:
-
+  web:
   
