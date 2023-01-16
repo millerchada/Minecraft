@@ -41,7 +41,7 @@ services:
     image: eclipse-mosquitto:2
     restart: "unless-stopped"
     volumes:
-      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mosquitto-config:/mosquitto/config/mosquitto.conf:ro
       - mosquitto-data:/mosquitto/data
       - mosquitto-logs:/mosquitto/log
     
@@ -116,5 +116,6 @@ volumes:
   webhook:
   mosquitto-data:
   mosquitto-logs:  
+  mosquitto-config:
 
   
