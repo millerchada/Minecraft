@@ -56,7 +56,7 @@ services:
     ports:
       - "8080:8080"
       
-map_builder:
+  map_builder:
     image: ghcr.io/edward3h/bedrock-viz-from-backups:v0.2
     restart: "unless-stopped"
     container_name: mapbuilder
