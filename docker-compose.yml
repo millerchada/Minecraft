@@ -27,6 +27,13 @@ services:
       - '60600:19132/udp'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      
+  webhook:
+    image: ghcr.io/edward3h/mc-webhook:0.4
+    restart: "unless-stopped"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config.yml:/config.yml    
 
   minecraft-survival:
     image: itzg/minecraft-bedrock-server
